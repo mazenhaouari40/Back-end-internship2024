@@ -24,15 +24,11 @@ pipeline {
         stage('run') {
             steps {
                 bat 'java -jar target/Backend-0.0.1-SNAPSHOT.jar'
-            }
-        }
-
-        stage('stop project') {
-            steps {
                 echo 'Stopping Spring Boot project...'
                 input message: 'Finished using the backend? (Click "Proceed" to continue)'
                 bat 'npx kill-port 8081'
             }
         }
+
     }
 }
