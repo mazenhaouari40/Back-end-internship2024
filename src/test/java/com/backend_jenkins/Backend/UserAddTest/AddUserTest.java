@@ -58,7 +58,7 @@ public class AddUserTest
         User user = new User(99888776,"Test","mazen");
         userRepository.save(user);
 
-        userRepository.deleteById(user.getId());
+        userRepository.deleteById(800);
 
         Optional<User> Userreturn = userRepository.findById(user.getId());
         Assertions.assertTrue(Userreturn.isEmpty());
