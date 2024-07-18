@@ -20,15 +20,24 @@ pipeline {
                 bat 'mvn test'
             }
         }
-        
+
         stage('run') {
-            steps {
-                bat 'java -jar target/Backend-0.0.1-SNAPSHOT.jar'
-                echo 'Stopping Spring Boot project...'
-                input message: 'Finished using the backend? (Click "Proceed" to continue)'
-                bat 'npx kill-port 8081'
+            parallel {
+                stage('Start Backend') {
+                    steps {
+                        bat 'java -jar target/Backend-0.0.1-SNAPSHOT.jar'
+                    }
+                }
+                stage('Stop Backend') {
+                    steps {
+                        script {
+                            echo 'Stopping Spring Boot project...'
+                            input message: 'Finished using the backend? (Click "Proceed" to continue)'
+                            bat 'npx kill-port 8081'
+                        }
+                    }
+                }
             }
         }
-
     }
 }
