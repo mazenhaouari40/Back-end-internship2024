@@ -9,25 +9,38 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class AddUserTest
+public class UserTest
 {
     @Autowired
     private UserRepository userRepository;
 
     @Test
-    void Should_save_a_user_successfully() {
+    void Should_add_user_successfully() {
     User user = new User(99888776,"mazenhaouari@gmail.com","mazen");
     User saveduser = userRepository.save(user);
         Assertions.assertNotNull(saveduser);
     }
 
+
     @Test
-    public void FindbyId_return_user_successufuly(){
+    void shouldNotAddUserWithWrongEmail() {
+        User user = new User(99888776, "mazenhagmail.com", "mazen");
+        Exception exception = Assertions.assertThrows(DataIntegrityViolationException.class, () -> {
+            userRepository.save(user);
+        });
+        String expectedMessage = "could not execute statement";
+        String actualMessage = exception.getMessage();
+        Assertions.assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+    @Test
+    public void Should_retreive_user_with_id_successufuly(){
         User user = new User(99888776,"Test","mazen");
         userRepository.save(user);
         User fuser = userRepository.findById(user.getId()).get();
@@ -35,11 +48,10 @@ public class AddUserTest
     }
 
     @Test
-    public void FindAllUser_successufuly(){
+    public void Should_retreive_all_user_successufuly(){
         List<User> Listuser = userRepository.findAll();
         Assertions.assertNotNull(Listuser);
     }
-
 
     @Test
     public void Update_user_successufuly(){
