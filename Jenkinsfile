@@ -8,13 +8,13 @@ pipeline {
             }
         }
 
-        // stage('Build and Test') {
-        //     steps {
-        //         script {
-        //             bat 'mvn clean package'
-        //         }
-        //     }
-        // }
+        stage('Build and Test') {
+            steps {
+                script {
+                    bat 'mvn clean package'
+                }
+            }
+        }
 
 
     stage('Deploy') {
