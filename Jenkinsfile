@@ -8,13 +8,13 @@ pipeline {
             }
         }
 
-        // stage('Build and Test') {
-        //     steps {
-        //         script {
-        //             bat 'mvn clean package'
-        //         }
-        //     }
-        // }
+        stage('Build and Test') {
+            steps {
+                script {
+                    bat 'mvn clean package'
+                }
+            }
+        }
 
 
     stage('Deploy') {
@@ -23,7 +23,7 @@ pipeline {
                         def artifact = 'target/Backend-0.0.1-SNAPSHOT.jar'
     
                         // Define the Render API URL and headers
-                        def renderApiUrl = 'https://api.render.com/deploy/srv-cqe2528gph6c73agldog?key=1pau44DHssM'
+                        def renderApiUrl = 'https://api.render.com/deploy/srv-cqf6jb88fa8c73elcg3g?key=viFKCda2dC0'
                         def headers = [
                             'Content-Type': 'application/json',
                             'Authorization': "Bearer ${RENDER_API_KEY}"
