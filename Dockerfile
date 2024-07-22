@@ -17,7 +17,7 @@ FROM openjdk:21-jdk
 WORKDIR /app
 
 # Copy the built JAR file from the build stage to the final image
-COPY --from=build /app/target/*.jar /app/app.jar
+COPY --from=build /app/target/Backend-0.0.1-SNAPSHOT.jar /app/app.jar
 
 # Expose the application port
 EXPOSE 8081
