@@ -11,7 +11,7 @@ COPY . .
 RUN mvn clean package -DskipTests
 
 # Stage 2: Create a smaller final image using JDK 22
-FROM openjdk:22-alpine
+FROM openjdk:21-jdk
 
 # Set the working directory
 WORKDIR /app
