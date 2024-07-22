@@ -8,47 +8,43 @@ pipeline {
             }
         }
 
-        stage('Build and Test') {
-            steps {
-                script {
-                    bat 'mvn clean package'
+        // stage('Build and Test') {
+        //     steps {
+        //         script {
+        //             bat 'mvn clean package'
+        //         }
+        //     }
+        // }
+
+
+    stage('Deploy') {
+                steps {
+                    script {
+                        def artifact = 'target/Backend-0.0.1-SNAPSHOT.jar'
+    
+                        // Define the Render API URL and headers
+                        def renderApiUrl = 'https://api.render.com/deploy/srv-cqe2528gph6c73agldog?key=1pau44DHssM'
+                        def headers = [
+                            'Content-Type': 'application/json',
+                            'Authorization': "Bearer ${RENDER_API_KEY}"
+                        ]
+    
+                        // Define the JSON payload for the Render deployment API
+                        def payload = [
+                            branch: 'main',
+                            commitMessage: 'Automated deployment from Jenkins'
+                        ]
+    
+                        // Make the API call to trigger the deployment on Render
+                        httpRequest(
+                            url: renderApiUrl,
+                            httpMode: 'POST',
+                            requestBody: new groovy.json.JsonBuilder(payload).toString(),
+                            customHeaders: headers.collect { key, value -> [name: key, value: value] }
+                        )
+                    }
                 }
-            }
-        }
-
-
-
-
-
-
-stage('Deploy') {
-            steps {
-                script {
-                    def artifact = 'target/Backend-0.0.1-SNAPSHOT.jar'
-
-                    // Define the Render API URL and headers
-                    def renderApiUrl = 'https://api.render.com/deploy/srv-cqe2528gph6c73agldog?key=1pau44DHssM'
-                    def headers = [
-                        'Content-Type': 'application/json',
-                        'Authorization': "Bearer ${RENDER_API_KEY}"
-                    ]
-
-                    // Define the JSON payload for the Render deployment API
-                    def payload = [
-                        branch: 'main',
-                        commitMessage: 'Automated deployment from Jenkins'
-                    ]
-
-                    // Make the API call to trigger the deployment on Render
-                    httpRequest(
-                        url: renderApiUrl,
-                        httpMode: 'POST',
-                        requestBody: new groovy.json.JsonBuilder(payload).toString(),
-                        customHeaders: headers.collect { key, value -> [name: key, value: value] }
-                    )
-                }
-            }
- }
+     }
 
 
 
