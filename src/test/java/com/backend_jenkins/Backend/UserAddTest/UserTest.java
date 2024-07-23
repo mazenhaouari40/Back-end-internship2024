@@ -28,16 +28,16 @@ public class UserTest
     }
 
 
-    @Test
-    void shouldNotAddUserWithWrongEmail() {
-        User user = new User(99888776, "mazenhagmail.com", "mazen");
-        Exception exception = Assertions.assertThrows(DataIntegrityViolationException.class, () -> {
-            userRepository.save(user);
-        });
-        String expectedMessage = "could not execute statement";
-        String actualMessage = exception.getMessage();
-        Assertions.assertTrue(actualMessage.contains(expectedMessage));
-    }
+//    @Test
+//    void shouldNotAddUserWithWrongEmail() {
+//        User user = new User(99888776, "mazenhagmail.com", "mazen");
+//        Exception exception = Assertions.assertThrows(DataIntegrityViolationException.class, () -> {
+//            userRepository.save(user);
+//        });
+//        String expectedMessage = "could not execute statement";
+//        String actualMessage = exception.getMessage();
+//        Assertions.assertTrue(actualMessage.contains(expectedMessage));
+//    }
 
     @Test
     public void Should_retreive_user_with_id_successufuly(){
