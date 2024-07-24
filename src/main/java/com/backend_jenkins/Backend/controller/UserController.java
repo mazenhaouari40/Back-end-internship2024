@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @RestController
 //@CrossOrigin(origins = "http://localhost:4200")
-@CrossOrigin(origins = "https://angular-jenkins.onrender.com/")
+//@CrossOrigin(origins = "https://angular-jenkins.onrender.com/")
 
 public class UserController {
     @Autowired
