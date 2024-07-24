@@ -10,7 +10,9 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "https://angular-jenkins.onrender.com/")
+
 public class UserController {
     @Autowired
     private UserService service;
