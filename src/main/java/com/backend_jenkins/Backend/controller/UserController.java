@@ -10,7 +10,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-//@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping("/user")
 //@CrossOrigin(origins = "https://angular-jenkins.onrender.com/")
 
 public class UserController {
@@ -22,26 +23,26 @@ public class UserController {
         return "Bonjour mazen";
     }
 
-    @GetMapping("/user")
+    @GetMapping("")
     public List<User> getUsers(){
         return service.getUsers();
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("{id}")
     public Optional<User> getUser(@PathVariable Integer id){
         return service.getUser(id);
     }
 
-    @PostMapping("/user/add")
+    @PostMapping("/add")
     public void addUser(@RequestBody User user){
         service.addUser(user);
     }
 
-    @PutMapping("/user/edit/{id}")
+    @PutMapping("edit/{id}")
     public void editUser(@PathVariable Integer id,@RequestBody User user){
         service.updateUser(user);
     }
-    @DeleteMapping("/user/delete/{id}")
+    @DeleteMapping("delete/{id}")
     public void deleteFriend(@PathVariable Integer id){
         service.deleteUser(id);
     }
