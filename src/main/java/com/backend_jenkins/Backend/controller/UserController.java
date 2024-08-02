@@ -11,9 +11,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/user")
 //@CrossOrigin(origins = "https://angular-jenkins.onrender.com/")
-
 public class UserController {
     @Autowired
     private UserService service;
@@ -23,26 +21,26 @@ public class UserController {
         return "Bonjour mazen";
     }
 
-    @GetMapping("")
+    @GetMapping("/user")
     public List<User> getUsers(){
         return service.getUsers();
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/user/{id}")
     public Optional<User> getUser(@PathVariable Integer id){
         return service.getUser(id);
     }
 
-    @PostMapping("/add")
+    @PostMapping("/user/add")
     public void addUser(@RequestBody User user){
         service.addUser(user);
     }
 
-    @PutMapping("edit/{id}")
+    @PutMapping("/user/edit/{id}")
     public void editUser(@PathVariable Integer id,@RequestBody User user){
         service.updateUser(user);
     }
-    @DeleteMapping("delete/{id}")
+    @DeleteMapping("/user/delete/{id}")
     public void deleteFriend(@PathVariable Integer id){
         service.deleteUser(id);
     }
