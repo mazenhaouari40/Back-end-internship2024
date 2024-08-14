@@ -12,7 +12,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/signup")
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://localhost:4200")
 
 public class SignUpController {
 

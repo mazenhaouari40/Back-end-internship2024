@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.*;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/admin")
 public class AdminController {
     @Autowired

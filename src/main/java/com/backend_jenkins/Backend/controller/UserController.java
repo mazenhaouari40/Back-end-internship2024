@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.*;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://localhost:4200")
 //@CrossOrigin(origins = "https://angular-jenkins.onrender.com/")
 public class UserController {
     @Autowired
