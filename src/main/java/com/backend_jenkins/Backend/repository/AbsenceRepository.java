@@ -16,4 +16,5 @@ public interface AbsenceRepository extends JpaRepository<Absence,Integer> {
     List<Absence> getAbsencesByManagerId(@Param("id") int id);
 
     List<Absence> findAbsencesByUser(@Param("user") User user);
+    void deleteAbsencesByUser(User user);
 }

@@ -36,6 +36,12 @@ public class AbsenceController {
     public List<Absence> getListAbsenceByManagerId(@PathVariable Integer id){
     return absenceService.GetAbsenceManager(id);
     }
+    @PutMapping("/Updatestatus/{id}")
+    public void updatestatus(@PathVariable Integer id,@RequestBody Absence absence){
+        absenceService.Update_absence(id,absence.getStatus());
+    }
+
+
 
 
 }

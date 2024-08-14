@@ -7,6 +7,7 @@ import com.backend_jenkins.Backend.Model.LoginUser;
 import com.backend_jenkins.Backend.Model.ResponseLoginUser;
 import com.backend_jenkins.Backend.Model.User;
 import com.backend_jenkins.Backend.Service.LoginUserService;
+import com.backend_jenkins.Backend.Service.UserService;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,8 @@ public class LoginController {
     private LoginUserService loginUserService;
     @Autowired
     private JwtUtil jwtUtil;
+    @Autowired
+    private UserService userService;
 
     @PostMapping
     public ResponseEntity<?> login(@RequestBody LoginUser login)  {
@@ -43,6 +46,8 @@ public class LoginController {
         } catch (UsernameNotFoundException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+        User user = userService.getUserByEmail(login.getEmail()).get();
+
 
         String jwt = jwtUtil.generateToken(userDetails.getUsername());
 
@@ -50,7 +55,7 @@ public class LoginController {
 
 
 //        return ResponseEntity.ok(loginresponse);
-        return ResponseEntity.ok(new JwtResponse(jwt));
+        return ResponseEntity.ok(new JwtResponse(jwt,user));
 
     }
 

@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping("/signup")
 @CrossOrigin(origins = "http://localhost:4200")
@@ -21,7 +23,7 @@ public class SignUpController {
     }
 
     @PostMapping
-    public ResponseEntity<?> signupUser(@RequestBody User user){
+    public ResponseEntity<?> signupUser(@RequestBody User user) throws IOException {
         boolean  createduser = authService.createUser(user);
         if (createduser){
             return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseLoginUser("user created successfully",true));

@@ -35,27 +35,35 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Absence> absences;
 
-    public User(int num_tel, String email,String nom,String password,String role,User manager) {
+    @Lob
+    @Column(name ="imageUser",length = 1000)
+    private byte[] imageuser;
+
+    @Column(name="Imageencode_64bits")
+    private String imageencode_64bits;
+
+    public User(int id, String imageencode_64bits, byte[] imageuser, List<Absence> absences, User manager, String role, String password, int num_tel, String email, String nom) {
+        this.id = id;
+        this.imageencode_64bits = imageencode_64bits;
+        this.imageuser = imageuser;
+        this.absences = absences;
+        this.manager = manager;
+        this.role = role;
+        this.password = password;
         this.num_tel = num_tel;
         this.email = email;
         this.nom = nom;
-        this.password = password;
-        this.role = role;
-        this.manager = manager;
-    }
-    public User(String email,String password) {
-        this.email = email;
-        this.password = password;
     }
 
     public User() {
+
     }
 
     public int getId() {
         return id;
     }
 
-    public int getNum_tel() {
+    public Integer getNum_tel() {
         return num_tel;
     }
 
@@ -107,5 +115,19 @@ public class User {
         this.manager = manager;
     }
 
+    public byte[] getImageuser() {
+        return imageuser;
+    }
 
+    public void setImageuser(byte[] imageuser) {
+        this.imageuser = imageuser;
+    }
+
+    public String getImageencode_64bits() {
+        return imageencode_64bits;
+    }
+
+    public void setImageencode_64bits(String imageencode_64bits) {
+        this.imageencode_64bits = imageencode_64bits;
+    }
 }
