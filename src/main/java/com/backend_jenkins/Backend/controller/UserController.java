@@ -77,7 +77,6 @@ public class UserController {
         byte[] imageData=service.downloadImage(id);
         String base64Image = Base64.encodeBase64String(imageData);
 
-        // Create a response body with the base64 string
         Map<String, String> responseBody = new HashMap<>();
         responseBody.put("image", base64Image);
 

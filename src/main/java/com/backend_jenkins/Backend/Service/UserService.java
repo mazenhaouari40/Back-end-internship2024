@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,6 +29,8 @@ public class UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+
 
     public List<User> getUsers(){
         return repository.findAll();
@@ -82,9 +85,9 @@ public class UserService {
                 absenceRepository.deleteAbsencesByUser(existinguser.get());
                 existinguser.get().setManager(null);
             }
-
             repository.deleteById(id);
-            }
+
+        }
         }
 
     public ResponseEntity<?> updateUserProfile(int id, User userupdated , MultipartFile image) throws IOException {

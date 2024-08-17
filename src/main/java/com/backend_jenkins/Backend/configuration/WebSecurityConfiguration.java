@@ -58,11 +58,11 @@ public class WebSecurityConfiguration {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOriginPattern("*"); // Permet toutes les origines
-        config.addAllowedHeader("*"); // Permet tous les en-têtes
-        config.addAllowedMethod("*"); // Permet toutes les méthodes (GET, POST, etc.)
+        config.addAllowedOriginPattern("*");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
         source.registerCorsConfiguration("/**", config);
-        return new CorsFilter(source); // Passe la source au CorsFilter
+        return new CorsFilter(source);
     }
 
 

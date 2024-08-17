@@ -16,6 +16,29 @@ pipeline {
             }
         }
 
+            stage('Deploy') {
+                        steps {
+                            script {
+
+                   def renderDeployHook = 'https://api.render.com/deploy/srv-cqf6jb88fa8c73elcg3g?key=viFKCda2dC0'
+                    bat """
+                        curl "${renderDeployHook}"
+                    """
+                            }
+                        }
+             }
+
+    }
+}
+
+
+
+
+
+
+
+
+
 
     // stage('Deploy') {
     //             steps {
@@ -85,5 +108,3 @@ pipeline {
         //         }
         //     }
         // }
-    }
-}
