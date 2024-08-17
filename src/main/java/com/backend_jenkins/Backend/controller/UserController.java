@@ -26,7 +26,7 @@ public class UserController {
 
     @GetMapping("/bonjour")
     public String bonjour(){
-        return "Bonjour mazen";
+        return "Bonjour mazen from jenkins";
     }
 
     @GetMapping("/users")
