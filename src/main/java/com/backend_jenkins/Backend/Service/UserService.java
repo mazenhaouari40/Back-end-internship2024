@@ -78,11 +78,10 @@ public class UserService {
     public void deleteUser(Integer id){
         Optional<User> existinguser = repository.findById(id);
         if (existinguser.get() != null) {
-
+            absenceRepository.deleteAbsencesByUser(existinguser.get());
             if (existinguser.get().getRole().equals("manager")){
                 repository.setManagerNull(id);
             }else{
-                absenceRepository.deleteAbsencesByUser(existinguser.get());
                 existinguser.get().setManager(null);
             }
             repository.deleteById(id);

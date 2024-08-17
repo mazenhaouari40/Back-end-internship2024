@@ -13,10 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/login")
@@ -32,31 +35,54 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
+//    @PostMapping
+//    public ResponseEntity<?> login(@RequestBody LoginUser login)  {
+//        try {
+//            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword()));
+//        } catch (UsernameNotFoundException e) {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+//        }
+//
+//        UserDetails userDetails;
+//        try{
+//            userDetails = loginUserService.loadUserByUsername(login.getEmail());
+//        } catch (UsernameNotFoundException e){
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+//        }
+//        User user = userService.getUserByEmail(login.getEmail()).get();
+//
+//
+//        String jwt = jwtUtil.generateToken(userDetails.getUsername());
+//        return ResponseEntity.ok(new JwtResponse(jwt,user));
+//
+//    }
+
+
     @PostMapping
-    public ResponseEntity<?> login(@RequestBody LoginUser login)  {
+    public ResponseEntity<?> login(@RequestBody LoginUser login) {
+        Optional<User> optionalUser = userService.getUserByEmail(login.getEmail());
+        if (!optionalUser.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ResponseLoginUser("Utilisateur n'existe pas",false));
+        }
+
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword()));
-        } catch (UsernameNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword())
+            );
+        } catch (BadCredentialsException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new ResponseLoginUser("Mot de passe incorrect",false));
         }
 
-        UserDetails userDetails;
-        try{
-            userDetails = loginUserService.loadUserByUsername(login.getEmail());
-        } catch (UsernameNotFoundException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-        User user = userService.getUserByEmail(login.getEmail()).get();
-
+        UserDetails userDetails = loginUserService.loadUserByUsername(login.getEmail());
 
         String jwt = jwtUtil.generateToken(userDetails.getUsername());
 
-//        ResponseLoginUser loginresponse = loginUserService.loginUser(login);
+        User user = optionalUser.get();
 
-
-//        return ResponseEntity.ok(loginresponse);
-        return ResponseEntity.ok(new JwtResponse(jwt,user));
-
+        return ResponseEntity.ok(new JwtResponse(jwt, user));
     }
+
 
 }

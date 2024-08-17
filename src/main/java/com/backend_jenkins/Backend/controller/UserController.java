@@ -18,37 +18,11 @@ import java.io.IOException;
 import java.util.*;
 
 @RestController
-//@CrossOrigin(origins = "http://localhost:4200")
-//@CrossOrigin(origins = "https://angular-jenkins.onrender.com/")
+
 public class UserController {
     @Autowired
     private UserService service;
 
-    @GetMapping("/bonjour")
-    public String bonjour(){
-        return "Bonjour mazen from jenkins";
-    }
-
-    @GetMapping("/users")
-    public List<User> getUsers(){
-        return service.getUsers();
-    }
-
-
-    @GetMapping("/user/{id}")
-    public Optional<User> getUser(@PathVariable Integer id){
-        return service.getUser(id);
-    }
-
-    @PostMapping("/user/add")
-    public void addUser(@RequestBody User user){
-        service.addUser(user);
-    }
-
-    @PutMapping("/user/edit/{id}")
-    public void editUser(@PathVariable Integer id,@RequestBody User user){
-        service.updateUser(id,user);
-    }
 
     @DeleteMapping("/user/delete/{id}")
     public void deleteFriend(@PathVariable Integer id){
@@ -56,7 +30,6 @@ public class UserController {
         service.deleteUser(id);
 
     }
-
 
     @PutMapping("/user/editProfile/{id}")
     public ResponseEntity<?> editUser(
@@ -85,6 +58,29 @@ public class UserController {
                 .body(responseBody);
 
     }
+
+
+    @GetMapping("/users")
+    public List<User> getUsers(){
+        return service.getUsers();
+    }
+
+    @GetMapping("/user/{id}")
+    public Optional<User> getUser(@PathVariable Integer id){
+        return service.getUser(id);
+    }
+
+    @PostMapping("/user/add")
+    public void addUser(@RequestBody User user){
+        service.addUser(user);
+    }
+
+    @PutMapping("/user/edit/{id}")
+    public void editUser(@PathVariable Integer id,@RequestBody User user){
+        service.updateUser(id,user);
+    }
+
+
 
 
 
