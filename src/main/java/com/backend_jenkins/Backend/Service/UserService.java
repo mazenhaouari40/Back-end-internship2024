@@ -4,6 +4,8 @@ package com.backend_jenkins.Backend.Service;
 import com.backend_jenkins.Backend.Jwt.ImageUtil;
 import com.backend_jenkins.Backend.Model.ResponseLoginUser;
 import com.backend_jenkins.Backend.Model.User;
+//import com.backend_jenkins.Backend.controller.WebSocketController;
+import com.backend_jenkins.Backend.configuration.MyWebSocketHandler;
 import com.backend_jenkins.Backend.repository.AbsenceRepository;
 import com.backend_jenkins.Backend.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -30,6 +32,8 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private MyWebSocketHandler webSocketHandler;
 
 
     public List<User> getUsers(){
@@ -75,18 +79,18 @@ public class UserService {
 
 
     @Transactional
-    public void deleteUser(Integer id){
+    public void deleteUser(Integer id) throws IOException {
         Optional<User> existinguser = repository.findById(id);
-        if (existinguser.get() != null) {
-            absenceRepository.deleteAbsencesByUser(existinguser.get());
-            if (existinguser.get().getRole().equals("manager")){
-                repository.setManagerNull(id);
-            }else{
-                existinguser.get().setManager(null);
+            if (existinguser.get() != null) {
+                absenceRepository.deleteAbsencesByUser(existinguser.get());
+                if (existinguser.get().getRole().equals("manager")){
+                    repository.setManagerNull(id);
+                }else{
+                    existinguser.get().setManager(null);
+                }
+                webSocketHandler.notifyUserDeleted( existinguser.get().getEmail());
+                repository.deleteById(id);
             }
-            repository.deleteById(id);
-
-        }
         }
 
     public ResponseEntity<?> updateUserProfile(int id, User userupdated , MultipartFile image) throws IOException {

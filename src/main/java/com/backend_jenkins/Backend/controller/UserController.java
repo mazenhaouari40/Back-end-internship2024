@@ -25,7 +25,7 @@ public class UserController {
 
 
     @DeleteMapping("/user/delete/{id}")
-    public void deleteFriend(@PathVariable Integer id){
+    public void deleteFriend(@PathVariable Integer id) throws IOException {
 
         service.deleteUser(id);
 
