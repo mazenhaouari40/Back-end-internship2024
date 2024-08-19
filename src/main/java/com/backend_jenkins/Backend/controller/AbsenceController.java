@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,7 +38,7 @@ public class AbsenceController {
     return absenceService.GetAbsenceManager(id);
     }
     @PutMapping("/Updatestatus/{id}")
-    public void updatestatus(@PathVariable Integer id,@RequestBody Absence absence){
+    public void updatestatus(@PathVariable Integer id,@RequestBody Absence absence) throws IOException {
         absenceService.Update_absence(id,absence.getStatus());
     }
 

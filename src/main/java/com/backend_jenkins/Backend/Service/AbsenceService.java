@@ -3,12 +3,14 @@ package com.backend_jenkins.Backend.Service;
 import com.backend_jenkins.Backend.Jwt.ImageUtil;
 import com.backend_jenkins.Backend.Model.Absence;
 import com.backend_jenkins.Backend.Model.User;
+import com.backend_jenkins.Backend.configuration.MyWebSocketHandler;
 import com.backend_jenkins.Backend.repository.AbsenceRepository;
 import com.backend_jenkins.Backend.repository.UserRepository;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +22,9 @@ public class AbsenceService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private MyWebSocketHandler webSocketHandler;
 
     public void addAbsence(Absence absence){
         absenceRepository.save(absence);
@@ -40,13 +45,15 @@ public class AbsenceService {
         return list_absence;
     }
 
-    public void Update_absence(int id_absence,String status){
+    public void Update_absence(int id_absence,String status) throws IOException {
         Optional<Absence> a = absenceRepository.findById(id_absence);
         if (a.isPresent()){
             Absence ab = a.get();
             if (status != null){
                 ab.setStatus(status);
             }
+            webSocketHandler.notifystatus(id_absence);
+
             absenceRepository.save(ab);
         }
 

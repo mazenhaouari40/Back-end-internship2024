@@ -1,5 +1,6 @@
 package com.backend_jenkins.Backend.configuration;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
@@ -30,7 +31,7 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
-        // Handle incoming messages if needed
+
     }
 
     public void notifyUserDeleted(String userEmail) throws IOException {
@@ -40,4 +41,17 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
             session.sendMessage(new TextMessage(jsonPayload));
         }
     }
+
+    public void notifystatus(Integer id_absence) throws IOException {
+        Map<String, String> responseBody = Map.of("type", "status", "idabsence", String.valueOf(id_absence));
+        String jsonPayload = objectMapper.writeValueAsString(responseBody); // Convert map to JSON string
+        for (WebSocketSession session : sessions) {
+                session.sendMessage(new TextMessage(jsonPayload));
+        }
+    }
+
+
+    
+
+
 }
